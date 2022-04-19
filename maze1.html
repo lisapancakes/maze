@@ -1,10 +1,15 @@
 <html>
 <head>
 <style>
-  .progress {
-    stroke-dashoffset: 0; 
-    stroke-dasharray: 0;
+  @keyframes animate {
+  0% {
+    stroke-dasharray: 0 9500;
   }
+}
+
+.progress {
+  animation: animate 50s ease-out forwards;
+}
   </style>
 </head>
 <body>
