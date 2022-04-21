@@ -1,433 +1,389 @@
 <html>
 <head>
 <style>
-  @keyframes animate {
-  0% {
-    stroke-dasharray: 0 9500;
-  }
+.yellow {
+  --bg: #ffd60b;
+  --stroke: #000;
+}
+
+.black {
+  --bg: #000;
+  --stroke: #ffd60b;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  position: fixed;
+  background: var(--bg);
+  top: 0;
+  left: 0;
+}
+
+.progress,
+.maze-outline {
+  stroke: var(--stroke);
+}
+
+svg {
+  height: 100vh;
+  width: 230px;
+}
+
+.content {
+  position: relative;
+}
+
+.black-wrapper {
+  background: black;
+  color: white;
+}
+
+.with-black {
+  clip: rect(auto, auto, auto, auto);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  position: block;
+}
+
+p {
+  margin-top: 0;
+  padding: 0 0 0 300px;
 }
 
 .progress {
-  animation: animate 50s ease-out forwards infinite;
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2400;
 }
+
+.relative {
+  position: relative;
+}
+
   </style>
+<script>
+  let offset = 2400; // default for the stroke-dashoffset
+let lastScrollTop = 0; // last scroll position
+
+// get the maze progress element
+const maze = document.getElementsByClassName("progress");
+
+/**
+ * Reveals the maze progress
+ * changes the stroke-dashoffset CSS property
+ *
+ * The only problem with this code is that it seems really fragile
+ * Sometimes it scrolls down faster than it can scroll up.
+ * I wonder if we could update this to
+ */
+const reveal = () => {
+  // check the current scroll position
+  let curScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  const scrollPosition = curScrollTop;
+  const pageHeight = document.documentElement.scrollHeight;
+  const windowHeight = window.innerHeight;
+  const percentage = scrollPosition / (pageHeight - windowHeight);
+
+  console.log({
+    scrollPosition,
+    pageHeight,
+    windowHeight,
+    percentage
+  });
+
+  const offsetPercentage = 2400 * percentage;
+
+  offset = 2400 - offsetPercentage;
+
+  /*
+  if (curScrollTop > lastScrollTop) {
+    // user is scrolling down
+    offset -= 10;
+  } else {
+    // user is scrolling up
+    offset += 10;
+  }*/
+
+  lastScrollTop = curScrollTop <= 0 ? lastScrollTop : curScrollTop; // For mobile or negative scrolling
+
+  // update the stroke-dashoffset property
+  maze[0].style.strokeDashoffset = offset;
+  maze[1].style.strokeDashoffset = offset;
+};
+
+// when you scroll, run the reveal function
+window.addEventListener("scroll", reveal);
+
+  </script>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="253" height="3132" viewBox="0 0 253 3132">fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M31.7085 1855.25L31.7085 1797.35" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M32 1767L32 1739" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1594.76L31.7085 1565.83" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1536.89L31.7085 1478.99" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1363.24L31.7085 1276.4" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M32 1247L32 1219" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M32 3129L32 3101" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1044.88L31.7085 1015.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2926.88L31.7085 2897.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 958.046L31.7085 929.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2840.05L31.7085 2811.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 755.463L31.7085 668.654" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2637.46L31.7085 2550.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 639.688L31.7085 610.752" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2521.69L31.7085 2492.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 495.007L31.7085 408.168" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2377.01L31.7085 2290.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 379.231L31.7085 234.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2261.23L31.7085 2116.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 205.585L31.7085 176.648" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2087.58L31.7085 2058.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 31.9371L31.7085 3.00097" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1913.94L31.7085 1885" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1884.19L60.3843 1826.28" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M61.1899 1797.35L61.1899 1768" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1710.54L60.3843 1652.64" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1623.7L60.3843 1594.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1565.83L60.3843 1536.89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1507.95L60.3843 1450.05" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1392.18L60.3843 1305.34" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60 1247L60 1220" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60 3129L60 3102" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1160.66L60.3843 1131.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 3042.66L60.3843 3013.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1102.76L60.3843 1044.89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2984.76L60.3843 2926.89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 900.175L60.3843 755.464" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2782.17L60.3843 2637.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 726.526L60.3843 697.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2608.53L60.3843 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 639.688L60.3843 552.879" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2521.69L60.3843 2434.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 466.041L60.3843 437.105" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2348.04L60.3843 2319.1" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 379.231L60.3843 263.456" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2261.23L60.3843 2145.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 234.52L60.3843 205.583" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2116.52L60.3843 2087.58" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 176.648L60.3843 147.712" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2058.65L60.3843 2029.71" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 118.746L60.3843 31.937" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2000.75L60.3843 1913.94" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1826.28L89.0908 1768.41" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1739.47L89.0908 1710.54" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1681.6L89.0908 1565.83" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1536.89L89.0908 1507.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1478.99L89.0908 1392.18" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1363.24L89.0908 1334.31" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1305.34L89.0908 1276.4" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1247.47L89.0908 1218.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 3129.47L89.0908 3100.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1189.6L89.0908 1102.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 3071.6L89.0908 2984.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 987.012L89.0908 958.046" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2869.01L89.0908 2840.05" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 929.11L89.0908 900.174" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2811.11L89.0908 2782.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 871.238L89.0908 842.302" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2753.24L89.0908 2724.3" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 784.399L89.0908 697.591" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2666.4L89.0908 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 668.654L89.0908 639.688" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2550.65L89.0908 2521.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 610.752L89.0908 581.816" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2492.75L89.0908 2463.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 523.942L89.0908 466.04" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2405.94L89.0908 2348.04" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89 378L89 293" stroke="black" stroke-width="4.88" stroke-linecap="square"/>
-<path d="M89 2260L89 2175" stroke="black" stroke-width="4.88" stroke-linecap="square"/>
-<path d="M89.0908 205.585L89.0908 118.747" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2087.58L89.0908 2000.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 89.8087L89.0908 60.8726" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1971.81L89.0908 1942.87" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1826.28L117.77 1797.35" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1710.54L117.77 1681.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1594.76L117.77 1565.83" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1536.89L117.77 1478.99" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1450.05L117.77 1421.12" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1392.18L117.77 1363.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1218.53L117.77 1160.66" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 3100.53L117.77 3042.66" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1015.95L117.77 987.012" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2897.95L117.77 2869.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 958.046L117.77 929.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2840.05L117.77 2811.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 842.302L117.77 784.399" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2724.3L117.77 2666.4" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 755.463L117.77 726.527" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2637.46L117.77 2608.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M118 641L118 611.8" stroke="black" stroke-width="5.2" stroke-linecap="square"/>
-<path d="M118 2523L118 2493.8" stroke="black" stroke-width="5.2" stroke-linecap="square"/>
-<path d="M117.77 581.815L117.77 552.879" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2463.82L117.77 2434.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 495.007L117.77 379.232" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2377.01L117.77 2261.23" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 263.456L117.77 234.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2145.46L117.77 2116.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 176.648L117.77 89.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2058.65L117.77 1971.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 60.8732L117.77 31.9368" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1942.87L117.77 1913.94" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1855.25L146.445 1768.41" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1739.47L146.445 1652.64" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1624L146.445 1595" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1421.12L146.445 1363.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1276.4L146.445 1189.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M147 3129L146.445 3071.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 987.012L146.445 958.046" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2869.01L146.445 2840.05" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 929.11L146.445 900.174" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2811.11L146.445 2782.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 813.365L146.445 755.463" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2695.37L146.445 2637.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 726.526L146.445 697.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2608.53L146.445 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 668.654L146.445 581.816" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2550.65L146.445 2463.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 523.942L146.445 495.006" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2405.94L146.445 2377.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 379.231L146.445 321.359" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2261.23L146.445 2203.36" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 234.52L146.445 147.711" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2116.52L146.445 2029.71" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 89.8087L146.445 3.00003" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1971.81L146.445 1885" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175 1885L175.123 1826.28" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1768.41L175.123 1710.54" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1623.7L175 1596" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1565.83L175.123 1478.99" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1450.05L175.123 1334.31" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1305.34L175.123 1247.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1218.53L175.123 1189.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 3100.53L175.123 3071.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1131.69L175.123 1073.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 3013.69L175.123 2955.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 958.046L175.123 871.238" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2840.05L175.123 2753.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 842.302L175.123 813.365" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2724.3L175.123 2695.37" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 784.399L175.123 697.591" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2666.4L175.123 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 610.752L175.123 466.041" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2492.75L175.123 2348.04" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 437.104L175.123 350.295" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2319.1L175.123 2232.29" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 321.359L175.123 176.648" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2203.36L175.123 2058.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 147.712L175.123 89.8094" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2029.71L175.123 1971.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 60.8732L175.123 3.00045" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1942.87L175.123 1885" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1826.28L203.8 1768.41" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1681.6L203.8 1623.7" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1536.89L203.8 1478.99" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1450.05L203.8 1305.34" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1189.6L203.8 1131.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M204 3100L203.8 3013.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1102.76L203.8 987.013" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2984.76L203.8 2869.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 900.175L203.8 842.302" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2782.17L203.8 2724.3" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 784.399L203.8 755.463" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2666.4L203.8 2637.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 697.591L203.8 610.752" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2579.59L203.8 2492.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 581.815L203.8 552.879" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2463.82L203.8 2434.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 495.007L203.8 437.105" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2377.01L203.8 2319.1" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 408.167L203.8 379.231" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2290.17L203.8 2261.23" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 321.359L203.8 292.393" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2203.36L203.8 2174.39" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 234.52L203.8 147.711" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2116.52L203.8 2029.71" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 118.746L203.8 89.8096" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2000.75L203.8 1971.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 31.9371L203.8 3.00097" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1913.94L203.8 1885" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1826.28L117.768 1826.28" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1826.28L203.799 1826.28" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1797.35L60.3855 1797.35" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1797.35L203.8 1797.35" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1768L60 1768" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1768.41L146.445 1768.41" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1768.41L232.477 1768.41" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1739.47L146.445 1739.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1739.47L232.477 1739.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.03027 1710.54L60.3844 1710.54" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1710.54L232.476 1710.54" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1682H34" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1681.6L117.768 1681.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1681.6L203.8 1681.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1652.64L89.092 1652.64" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1652.64L175.124 1652.64" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.03027 1623.7L60.3844 1623.7" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1623.7L117.768 1623.7" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1623.7L203.8 1623.7" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M118 1595H204" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.03027 1565.83L117.768 1565.83" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1565.83L232.476 1565.83" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1536.89L60.3855 1536.89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1536.89L146.445 1536.89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1507.95L89.0908 1507.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1507.95L175.122 1507.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1479L31 1479" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1478.99L203.799 1478.99" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1450.05L60.3855 1450.05" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1450.05L175.124 1450.05" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1421H60" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1392L60 1392" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1392.18L117.768 1392.18" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1363.24L89.0908 1363.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1363.24L146.447 1363.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1334.31L203.799 1334.31" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1305.34L203.799 1305.34" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1276H118" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1276.4L232.477 1276.4" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 1247.47L31.7068 1247.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 3129.47L31.7068 3129.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1247.47L146.445 1247.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1247.47L203.8 1247.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 3129.47L203.8 3129.47" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1219L60 1219" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 3101L60 3101" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1218.53L117.768 1218.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 3100.53L117.768 3100.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1218.53L232.477 1218.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 3100.53L232.477 3100.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 1189.6L89.0903 1189.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 3071.6L89.0903 3071.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 1189.6L175.122 1189.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 3071.6L175.122 3071.6" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1161L60 1161" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 3043L60 3043" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1160.66L203.801 1160.66" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 3042.66L203.801 3042.66" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1131.69L89.092 1131.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 3013.69L89.092 3013.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1131.69L175.124 1131.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 3013.69L175.124 3013.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1102.76L146.446 1102.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2984.76L146.446 2984.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1102.76L203.8 1102.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2984.76L203.8 2984.76" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 1073.82L60.3839 1073.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2955.82L60.3839 2955.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1073.82L175.122 1073.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2955.82L175.122 2955.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 1044.88L31.7068 1044.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2926.88L31.7068 2926.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1044.88L203.799 1044.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2926.88L203.799 2926.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1015.95L203.8 1015.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2897.95L203.8 2897.95" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 987L41 987" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2869L41 2869" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M75 987L89 987" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M75 2869L89 2869" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 987.012L175.122 987.012" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2869.01L175.122 2869.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M32 958L204 958" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M32 2840L204 2840" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 929.11L60.3855 929.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2811.11L60.3855 2811.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 929.11L232.477 929.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2811.11L232.477 2811.11" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 900.175L146.444 900.175" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2782.17L146.444 2782.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 900.175L232.477 900.175" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2782.17L232.477 2782.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 871H26" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2753H26" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 871.238L117.768 871.238" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2753.24L117.768 2753.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 871.238L175.122 871.238" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2753.24L175.122 2753.24" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 842.302L60.3855 842.302" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2724.3L60.3855 2724.3" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 842.302L175.122 842.302" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2724.3L175.122 2724.3" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 813H26" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2695H26" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 813.365L117.768 813.365" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2695.37L117.768 2695.37" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 813.365L175.122 813.365" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2695.37L175.122 2695.37" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 813.365L232.477 813.365" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2695.37L232.477 2695.37" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 784L60 784" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2666L60 2666" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 784.399L232.477 784.399" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2666.4L232.477 2666.4" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 755.463L60.3839 755.463" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2637.46L60.3839 2637.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 755.463L146.447 755.463" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2637.46L146.447 2637.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 726.526L175.122 726.526" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2608.53L175.122 2608.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 726.526L232.477 726.526" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2608.53L232.477 2608.53" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 698L31 698" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2580L31 2580" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 697.591L146.445 697.591" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2579.59L146.445 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 697.591L203.8 697.591" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2579.59L203.8 2579.59" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 668.654L117.769 668.654" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2550.65L117.769 2550.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 668.654L175.122 668.654" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2550.65L175.122 2550.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 640L31.7081 639.688" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2522L31.7081 2521.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 639.688L203.8 639.688" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2521.69L203.8 2521.69" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 610.752L89.0908 610.752" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2492.75L89.0908 2492.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 610.752L203.801 610.752" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2492.75L203.801 2492.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 581.815L31.7068 581.815" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2463.82L31.7068 2463.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 581.815L117.768 581.815" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2463.82L117.768 2463.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 581.815L232.477 581.815" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2463.82L232.477 2463.82" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 552.879L89.092 552.879" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2434.88L89.092 2434.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 552.879L175.124 552.879" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2434.88L175.124 2434.88" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 524H118" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2406H118" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 523.942L232.477 523.942" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2405.94L232.477 2405.94" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 495.007L60.3855 495.007" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2377.01L60.3855 2377.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 495.007L146.447 495.007" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2377.01L146.447 2377.01" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 466.041L175.122 466.041" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2348.04L175.122 2348.04" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 437.104L117.768 437.104" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2319.1L117.768 2319.1" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 437.104L203.799 437.104" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2319.1L203.799 2319.1" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 408.167L89.0903 408.167" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2290.17L89.0903 2290.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 408.167L146.447 408.167" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2290.17L146.447 2290.17" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 379.231L31.7068 379.231" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2261.23L31.7068 2261.23" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 379.231L89.0908 379.231" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2261.23L89.0908 2261.23" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 379.231L203.801 379.231" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2261.23L203.801 2261.23" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 350.295L117.768 350.295" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 2232.29L117.768 2232.29" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 350.295L232.477 350.295" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2232.29L232.477 2232.29" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 321.359L31.7068 321.359" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2203.36L31.7068 2203.36" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 321.359L203.801 321.359" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 2203.36L203.801 2203.36" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M88.9199 292.393L146.274 292.393" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M88.9199 2174.39L146.274 2174.39" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 263.456L31.7068 263.456" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 2145.46L31.7068 2145.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 263.456L232.476 263.456" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2145.46L232.476 2145.46" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 234.52L89.0908 234.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 2116.52L89.0908 2116.52" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 205.585L146.446 205.585" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2087.58L146.446 2087.58" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 176.648L60.3855 176.648" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 2058.65L60.3855 2058.65" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 148L31.7081 147.712" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2030L31.7081 2029.71" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 147.712L203.8 147.712" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 2029.71L203.8 2029.71" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 119H89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 2001H89" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 118.746L175.122 118.746" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M146.445 2000.75L175.122 2000.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 118.746L232.477 118.746" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 2000.75L232.477 2000.75" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 90.0001L31.7081 89.8087" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3 1972H60" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 89.8087L146.447 89.8087" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M117.77 1971.81L146.447 1971.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 89.8087L203.8 89.8087" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M175.123 1971.81L203.8 1971.81" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 60.8727L31.7068 60.8727" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M3.02979 1942.87L31.7068 1942.87" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 60.8732L146.445 60.8732" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M89.0908 1942.87L146.445 1942.87" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 60.8732L232.477 60.8732" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1942.87L232.477 1942.87" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 31.9371L89.092 31.9371" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M31.7085 1913.94L89.092 1913.94" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 31.9371L232.477 31.9371" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M203.8 1913.94L232.477 1913.94" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 3.0011L203.799 3.00109" stroke="black" stroke-width="4.70598" stroke-linecap="square"/>
-<path d="M60.3843 1885L203.799 1885" stroke="black" stroke-width="4.70598" stroke-linecap="square"/> 
+<div class="yellow container">
+  <svg fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="false">
+    <path id="Vector" d="M28.7085 752.463L28.7085 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_2" d="M28.7085 636.688L28.7085 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_3" d="M28.7085 492.007L28.7085 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_4" d="M28.7085 376.231L28.7085 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_5" d="M28.7085 202.585L28.7085 173.649" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_6" d="M28.7085 28.9375L28.7085 0.00133763" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_7" d="M57.3843 897.176L57.3843 752.465" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_8" d="M57.3843 723.526L57.3843 694.59" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_9" d="M57.3843 636.688L57.3843 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_10" d="M57.3843 463.041L57.3843 434.105" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_11" d="M57.3843 376.231L57.3843 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_12" d="M57.3843 231.52L57.3843 202.583" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_13" d="M57.3843 173.648L57.3843 144.712" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_14" d="M57.3843 115.746L57.3843 28.9374" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_15" d="M86.0908 868.238L86.0908 839.302" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_16" d="M86.0908 781.399L86.0908 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_17" d="M86.0908 665.654L86.0908 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_18" d="M86.0908 607.752L86.0908 578.816" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_19" d="M86.0908 520.942L86.0908 463.04" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_20" d="M86 375L86 290" class="maze-outline" stroke-width="4.88" stroke-linecap="square" />
+    <path id="Vector_21" d="M86.0908 202.585L86.0908 115.747" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_22" d="M86.0908 86.8086L86.0908 57.8724" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_23" d="M114.77 839.303L114.77 781.4" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_24" d="M114.77 752.463L114.77 723.527" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_25" d="M115 638L115 608.8" class="maze-outline" stroke-width="5.2" stroke-linecap="square" />
+    <path id="Vector_26" d="M114.77 578.815L114.77 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_27" d="M114.77 492.007L114.77 376.232" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_28" d="M114.77 260.456L114.77 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_29" d="M114.77 173.648L114.77 86.8104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_30" d="M114.77 57.873L114.77 28.9367" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_31" d="M143.445 810.365L143.445 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_32" d="M143.445 723.526L143.445 694.59" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_33" d="M143.445 665.654L143.445 578.816" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_34" d="M143.445 520.942L143.445 492.006" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_35" d="M143.445 376.231L143.445 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_36" d="M143.445 231.52L143.445 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_37" d="M143.445 86.8086L143.445 -9.38475e-05" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_38" d="M172.123 839.303L172.123 810.366" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_39" d="M172.123 781.399L172.123 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_40" d="M172.123 607.752L172.123 463.041" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_41" d="M172.123 434.104L172.123 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_42" d="M172.123 318.359L172.123 173.648" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_43" d="M172.123 144.712L172.123 86.8098" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_44" d="M172.123 57.873L172.123 0.000332773" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_45" d="M200.8 897.176L200.8 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_46" d="M200.8 781.399L200.8 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_47" d="M200.8 694.591L200.8 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_48" d="M200.8 578.815L200.8 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_49" d="M200.8 492.007L200.8 434.105" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_50" d="M200.8 405.168L200.8 376.232" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_51" d="M200.8 318.359L200.8 289.393" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_52" d="M200.8 231.52L200.8 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_53" d="M200.8 115.746L200.8 86.8099" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_54" d="M200.8 28.9375L200.8 0.00133763" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_55" d="M0.0297852 897.176L143.444 897.176" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_56" d="M172.123 897.176L229.477 897.176" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_57" d="M0 868H23" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_58" d="M86.0908 868.238L114.768 868.238" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_59" d="M143.445 868.238L172.122 868.238" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_60" d="M28.7085 839.303L57.3855 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_61" d="M86.0908 839.303L172.122 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_62" d="M0 810H23" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_63" d="M57.3843 810.365L114.768 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_64" d="M143.445 810.365L172.122 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_65" d="M200.8 810.365L229.477 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_66" d="M0 781L57 781" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_67" d="M200.8 781.399L229.477 781.399" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_68" d="M0.0297852 752.463L57.3839 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_69" d="M114.77 752.463L143.447 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_70" d="M143.445 723.526L172.122 723.526" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_71" d="M200.8 723.526L229.477 723.526" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_72" d="M0 695L28 695" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_73" d="M57.3843 694.591L143.445 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_74" d="M172.123 694.591L200.8 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_75" d="M28.7085 665.654L114.769 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_76" d="M143.445 665.654L172.122 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_77" d="M0 637L28.7081 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_78" d="M172.123 636.688L200.8 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_79" d="M57.3843 607.752L86.0908 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_80" d="M114.77 607.752L200.801 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_81" d="M0.0297852 578.815L28.7068 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_82" d="M86.0908 578.815L114.768 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_83" d="M200.8 578.815L229.477 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_84" d="M28.7085 549.879L86.092 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_85" d="M114.77 549.879L172.124 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_86" d="M0 521H115" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_87" d="M172.123 520.942L229.477 520.942" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_88" d="M28.7085 492.007L57.3855 492.007" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_89" d="M114.77 492.007L143.447 492.007" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_90" d="M143.445 463.041L172.122 463.041" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_91" d="M57.3843 434.104L114.768 434.104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_92" d="M143.445 434.104L200.799 434.104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_93" d="M0.0297852 405.168L86.0903 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_94" d="M114.77 405.168L143.447 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_95" d="M0.0297852 376.231L28.7068 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_96" d="M57.3843 376.231L86.0908 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_97" d="M114.77 376.231L200.801 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_98" d="M86.0908 347.295L114.768 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_99" d="M200.8 347.295L229.477 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_100" d="M0.0297852 318.359L28.7068 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_101" d="M114.77 318.359L200.801 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_102" d="M85.9199 289.394L143.274 289.394" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_103" d="M0.0297852 260.456L28.7068 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_104" d="M57.3843 260.456L229.476 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_105" d="M57.3843 231.52L86.0908 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_106" d="M28.7085 202.585L143.446 202.585" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_107" d="M28.7085 173.648L57.3855 173.648" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_108" d="M0 145L28.7081 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_109" d="M172.123 144.712L200.8 144.712" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_110" d="M0 116H86" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_111" d="M143.445 115.746L172.122 115.746" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_112" d="M200.8 115.746L229.477 115.746" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_113" d="M0 87L28.7081 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_114" d="M114.77 86.8086L143.447 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_115" d="M172.123 86.8086L200.8 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_116" d="M0.0297852 57.873L28.7068 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_117" d="M86.0908 57.873L143.445 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_118" d="M200.8 57.873L229.477 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_119" d="M28.7085 28.9375L86.092 28.9375" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_120" d="M200.8 28.9375L229.477 28.9375" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <path id="Vector_121" d="M57.3843 0.000976562L200.799 0.000967319" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+    <line id="Line 1" x1="227.355" y1="1.0294e-07" x2="227.355" y2="897" class="maze-outline" stroke-width="4.71" />
+    <path class="progress" d="M42.5 0.5V15.5H100V43H71.5V102.5H100V189.5H129V131H158V247.5H129V217H100V247.5H42.5V391.5H100V420H42.5V478.5H72V450H100V506.5H129V536H13V564.5H42.5V652H72V623H100V652H129V679.5H42.5V737.5H72V796.5H100V767V710.5H129V737.5H157.5V796.5H185.5V854H129V883.5H157.5V899" class="maze-outline" stroke-width="4.71" />
+  </svg>
+</div>
 
-<svg width="230" height="3127" viewBox="0 0 230 3127" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M42.5 0.5V15.5H100V43H71.5V102.5H100V189.5H129V131H158V247.5H129V217H100V247.5H42.5V391.5H100V420H42.5V478.5H72V450H100V506.5H129V536H13V564.5H42.5V652H72V623H100V652H129V679.5H42.5V737.5H72V796.5H100V767V710.5H129V737.5H157.5V796.5H185.5V854H129V883.5H157.5V941.5H129V913.5H100V941.5H72V913.5H13V969H54.5V1000H100V969H129V1000H185.5V969H216.5V1115H185.5V1143.5H100V1201H70.5V1259H128.5V1289H158.5V1230H216.5V1259H185.5V1289H216.5V1462H100V1404.5H128.5V1434H158.5V1347H100V1375.5H71.5V1434H13.5V1462H43V1520H71.5V1550.5H128.5V1579.5H216.5V1693H157.5V1665H187V1636H100.5V1665H128.5V1722H100.5V1695.5H71.5V1722H43V1750.5H71.5V1809H43V1896H100.5V1927H71.5V1984H100.5V2071H129V2013.5H158.5V2128.5H129V2099.5H100.5V2128.5H43.5V2273.5H100.5V2302H43.5V2360H72.5V2332H100.5V2388.5H129V2418H13V2446H43.5V2533.5H72V2505.5H100.5V2533.5H129V2562.5H43.5V2621.5H72V2678.5H100.5V2649V2592H129V2621.5H158V2678.5H185.5V2736.5H129V2765H158V2822.5H129V2793.5H99V2822.5H72V2793.5H12.5V2852H55V2880.5H100.5V2852H129V2880.5H185.5V2852H216V2996H185.5V3025H100.5V3083.5H72V3127" stroke="black" stroke-width="10" stroke-dasharray="calc((100 / 100) * 9500) 9500" class="progress"/>
-</svg>
+<div class="content">
+  </div>
+<div class="content black-wrapper">
+  <div class="with-black">
+    <div class="black container">
+      <svg fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="false">
+        <path id="Vector" d="M28.7085 752.463L28.7085 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_2" d="M28.7085 636.688L28.7085 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_3" d="M28.7085 492.007L28.7085 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_4" d="M28.7085 376.231L28.7085 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_5" d="M28.7085 202.585L28.7085 173.649" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_6" d="M28.7085 28.9375L28.7085 0.00133763" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_7" d="M57.3843 897.176L57.3843 752.465" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_8" d="M57.3843 723.526L57.3843 694.59" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_9" d="M57.3843 636.688L57.3843 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_10" d="M57.3843 463.041L57.3843 434.105" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_11" d="M57.3843 376.231L57.3843 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_12" d="M57.3843 231.52L57.3843 202.583" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_13" d="M57.3843 173.648L57.3843 144.712" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_14" d="M57.3843 115.746L57.3843 28.9374" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_15" d="M86.0908 868.238L86.0908 839.302" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_16" d="M86.0908 781.399L86.0908 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_17" d="M86.0908 665.654L86.0908 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_18" d="M86.0908 607.752L86.0908 578.816" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_19" d="M86.0908 520.942L86.0908 463.04" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_20" d="M86 375L86 290" class="maze-outline" stroke-width="4.88" stroke-linecap="square" />
+        <path id="Vector_21" d="M86.0908 202.585L86.0908 115.747" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_22" d="M86.0908 86.8086L86.0908 57.8724" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_23" d="M114.77 839.303L114.77 781.4" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_24" d="M114.77 752.463L114.77 723.527" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_25" d="M115 638L115 608.8" class="maze-outline" stroke-width="5.2" stroke-linecap="square" />
+        <path id="Vector_26" d="M114.77 578.815L114.77 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_27" d="M114.77 492.007L114.77 376.232" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_28" d="M114.77 260.456L114.77 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_29" d="M114.77 173.648L114.77 86.8104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_30" d="M114.77 57.873L114.77 28.9367" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_31" d="M143.445 810.365L143.445 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_32" d="M143.445 723.526L143.445 694.59" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_33" d="M143.445 665.654L143.445 578.816" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_34" d="M143.445 520.942L143.445 492.006" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_35" d="M143.445 376.231L143.445 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_36" d="M143.445 231.52L143.445 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_37" d="M143.445 86.8086L143.445 -9.38475e-05" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_38" d="M172.123 839.303L172.123 810.366" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_39" d="M172.123 781.399L172.123 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_40" d="M172.123 607.752L172.123 463.041" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_41" d="M172.123 434.104L172.123 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_42" d="M172.123 318.359L172.123 173.648" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_43" d="M172.123 144.712L172.123 86.8098" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_44" d="M172.123 57.873L172.123 0.000332773" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_45" d="M200.8 897.176L200.8 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_46" d="M200.8 781.399L200.8 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_47" d="M200.8 694.591L200.8 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_48" d="M200.8 578.815L200.8 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_49" d="M200.8 492.007L200.8 434.105" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_50" d="M200.8 405.168L200.8 376.232" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_51" d="M200.8 318.359L200.8 289.393" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_52" d="M200.8 231.52L200.8 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_53" d="M200.8 115.746L200.8 86.8099" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_54" d="M200.8 28.9375L200.8 0.00133763" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_55" d="M0.0297852 897.176L143.444 897.176" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_56" d="M172.123 897.176L229.477 897.176" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_57" d="M0 868H23" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_58" d="M86.0908 868.238L114.768 868.238" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_59" d="M143.445 868.238L172.122 868.238" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_60" d="M28.7085 839.303L57.3855 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_61" d="M86.0908 839.303L172.122 839.303" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_62" d="M0 810H23" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_63" d="M57.3843 810.365L114.768 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_64" d="M143.445 810.365L172.122 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_65" d="M200.8 810.365L229.477 810.365" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_66" d="M0 781L57 781" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_67" d="M200.8 781.399L229.477 781.399" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_68" d="M0.0297852 752.463L57.3839 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_69" d="M114.77 752.463L143.447 752.463" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_70" d="M143.445 723.526L172.122 723.526" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_71" d="M200.8 723.526L229.477 723.526" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_72" d="M0 695L28 695" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_73" d="M57.3843 694.591L143.445 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_74" d="M172.123 694.591L200.8 694.591" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_75" d="M28.7085 665.654L114.769 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_76" d="M143.445 665.654L172.122 665.654" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_77" d="M0 637L28.7081 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_78" d="M172.123 636.688L200.8 636.688" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_79" d="M57.3843 607.752L86.0908 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_80" d="M114.77 607.752L200.801 607.752" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_81" d="M0.0297852 578.815L28.7068 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_82" d="M86.0908 578.815L114.768 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_83" d="M200.8 578.815L229.477 578.815" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_84" d="M28.7085 549.879L86.092 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_85" d="M114.77 549.879L172.124 549.879" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_86" d="M0 521H115" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_87" d="M172.123 520.942L229.477 520.942" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_88" d="M28.7085 492.007L57.3855 492.007" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_89" d="M114.77 492.007L143.447 492.007" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_90" d="M143.445 463.041L172.122 463.041" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_91" d="M57.3843 434.104L114.768 434.104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_92" d="M143.445 434.104L200.799 434.104" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_93" d="M0.0297852 405.168L86.0903 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_94" d="M114.77 405.168L143.447 405.168" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_95" d="M0.0297852 376.231L28.7068 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_96" d="M57.3843 376.231L86.0908 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_97" d="M114.77 376.231L200.801 376.231" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_98" d="M86.0908 347.295L114.768 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_99" d="M200.8 347.295L229.477 347.295" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_100" d="M0.0297852 318.359L28.7068 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_101" d="M114.77 318.359L200.801 318.359" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_102" d="M85.9199 289.394L143.274 289.394" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_103" d="M0.0297852 260.456L28.7068 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_104" d="M57.3843 260.456L229.476 260.456" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_105" d="M57.3843 231.52L86.0908 231.52" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_106" d="M28.7085 202.585L143.446 202.585" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_107" d="M28.7085 173.648L57.3855 173.648" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_108" d="M0 145L28.7081 144.711" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_109" d="M172.123 144.712L200.8 144.712" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_110" d="M0 116H86" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_111" d="M143.445 115.746L172.122 115.746" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_112" d="M200.8 115.746L229.477 115.746" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_113" d="M0 87L28.7081 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_114" d="M114.77 86.8086L143.447 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_115" d="M172.123 86.8086L200.8 86.8086" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_116" d="M0.0297852 57.873L28.7068 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_117" d="M86.0908 57.873L143.445 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_118" d="M200.8 57.873L229.477 57.873" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_119" d="M28.7085 28.9375L86.092 28.9375" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_120" d="M200.8 28.9375L229.477 28.9375" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <path id="Vector_121" d="M57.3843 0.000976562L200.799 0.000967319" class="maze-outline" stroke-width="4.70598" stroke-linecap="square" />
+        <line id="Line 1" x1="227.355" y1="1.0294e-07" x2="227.355" y2="897" class="maze-outline" stroke-width="4.71" />
+        <path class="progress" d="M42.5 0.5V15.5H100V43H71.5V102.5H100V189.5H129V131H158V247.5H129V217H100V247.5H42.5V391.5H100V420H42.5V478.5H72V450H100V506.5H129V536H13V564.5H42.5V652H72V623H100V652H129V679.5H42.5V737.5H72V796.5H100V767V710.5H129V737.5H157.5V796.5H185.5V854H129V883.5H157.5V899" class="maze-outline" stroke-width="4.71" />
+      </svg>
+    </div>
+  </div>
+  </div>
+<div class="content">
+ </div>
 </body>
   </html>
